@@ -1,0 +1,50 @@
+.login {
+    box-sizing: border-box;
+    background-color: #F8F8FB;
+    width: 100%;
+    height: 100vh;
+    .container-login {
+        background-color: white;
+        border-radius: 5px;
+        // margin-bottom: 500px;
+        width: 470px;
+        height: 460px;
+        position: absolute;
+        top: 70px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        .header-login {
+            width: 100%;
+            height: 120px;
+            background-color: #8793CF;
+            background-size: 40% 100%;
+            background-repeat: no-repeat;
+            background-image: url('../../image/vaccin.jpg') ;
+            background-position: right;
+            .title-label{
+                padding-top: 20px;
+                font-size: 25px;
+            }
+            .label {
+                padding-left: 15px;
+                color: white;
+            }
+        }
+        .content-login {
+            margin: 35px 20px;
+            .btn-custom {
+                width: 100%;
+                margin-top: 10px;
+                background-color: #7681ba;
+                color: white;
+            }
+            .container-href-forgot {
+              margin-top: 10px;
+              .href-forgot {
+                text-decoration: none;
+                color: #74788D;
+              }
+            }
+        }
+    }
+}
