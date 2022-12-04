@@ -14,13 +14,12 @@ import moment from "moment";
 const Histories = () => {
 
     const [histories, setHistories] = useState(null)
-    const [items, setItems] = useState([])
+
     const [pageCount, setpageCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(false);
     // const [choose, setChoose] = useState("All");
-    // const [arr, setArr] = useState(null)
-    let limit = 12;
+    const [arr, setArr] = useState(null)
     const data = []
 
     useEffect(() => {
@@ -43,6 +42,12 @@ const Histories = () => {
         },
         {
             title: 'Phone number',
+            width: 80,
+            dataIndex: 'phone',
+            fixed: '',
+        },
+        {
+            title: 'Email',
             width: 80,
             dataIndex: 'phone',
             fixed: '',
@@ -76,22 +81,7 @@ const Histories = () => {
             width: 90,
             dataIndex: 'medicalCenter',
             key: '5',
-        },
-        // {
-        //     title: 'Action',
-        //     width: 100,
-        //     dataIndex: 'status',
-        //     fix: 'right',
-        //     render: (record, index) => {
-        //         let color = record === true ? "#f6ffec" : "#fff0ef";
-        //         let borderColor = record === true ? "#c2eea0" : "#ffa39e";
-        //         let textColor = record === true ? "#42a221" : "#cf1321";
-        //         let key = record === true ? "Accepted" : "Not Accepted";
-        //         return (
-        //             <button style={{ backgroundColor: color, borderColor: borderColor, color: textColor }} onClick={() => changeStatus(index.id)} disabled={record}>{key}</button>
-        //         )
-        //     },
-        // },
+        }
     ]
 
     const fetchHistory = () => {
@@ -103,22 +93,21 @@ const Histories = () => {
                 arr.map((item, index) => {
                     const x = {
                         index: index + 1,
-                        id: item.registrationId,
+                        id: item.historyId,
                         userName: item.user.userName,
                         phone: "0" + item.user.phone,
+                        email: item.user.email,
                         disease: item.disease.diseaseName,
-                        vaccine: item.vaccine.vaccineName,
-                        dose: item.registrationDose,
-                        date: item.registrationTime,
+                        vaccine: item.disease.treatments[0].vaccine.vaccineName,
+                        dose: item.dose,
+                        date: item.time,
                         // moment.utc(item.registrationTime).format('DD/MM/YYYY')
                         medicalCenter: item.medicalCenter.name,
-                        status: item.status
                     }
                     data.push(x);
                 })
-                setHistories(data)
-                console.log(histories)
-                // setArr(data)
+                setArr(data)
+                setHistories(data.slice(0, 10))
                 setIsLoading(false);
             })
             .catch(
@@ -134,25 +123,8 @@ const Histories = () => {
                 setRefreshData(!refreshData)
             )
             .catch()
-
-        console.log(refreshData)
-        console.log(id)
     }
-    // useEffect(() => {
-    //     const getComments = async () => {
-    //         const res = await fetch(
-    //             `http://localhost:3004/comments?_page=2&_limit=${limit}`
-    //         );
-    //         const data = await res.json();
-    //         const total = res.headers.get('x-total-count')
-    //         setpageCount(Math.ceil(total/5))
-    //         console.log(pageCount)
-    //     console.log(total)
-    //         setItems(data)
-    //     };
-    //     getComments()
-    // }, []);
-
+  
     const getRealTime = () => {
         return moment(new Date()).format("YYYY-MM-DD")
     }
@@ -161,41 +133,33 @@ const Histories = () => {
         arr.splice(0, arr.length)
     }
 
-    const fetchComments = async (currentPage) => {
-        const res = await fetch(
-            `http://localhost:3004/comments?_page=${currentPage}&_limit=${limit}`
-        );
-        const data = await res.json();
-
+    const getHistory = (currentPage) => {
+        var currentOffset = currentPage * 10 - 10
+        var data = arr.slice(currentOffset, currentOffset + 10)
         return data
     };
 
-    const handlePageClick = async (data) => {
-        console.log(data.selected)
+    const handlePageClick = (data) => {
         let currentPage = data.selected + 1
+        const result = getHistory(currentPage);
+        console.log(result)
+        console.log("cfdscfds")
+        setHistories(result)
+    }
 
-        const commentsFormServer = await fetchComments(currentPage);
-        setItems(commentsFormServer)
-    };
-
-    // function onChangeValue(event) {
-    //     setChoose(event.target.value);
-    //     setHistories(handleSearchRadio(event.target.value))
-    // }
-
-    // const handleSearchRadio = (value) => {
-    //     return arr.filter((item) => {
-    //         switch (value) {
-    //             case 'All':
-    //                 return item
-    //             case 'Accepted':
-    //                 return item.status === true
-    //             case 'Not Accepted':
-    //                 return item.status === false
-    //         }
-    //     })
-    //     // setRegistrations(result)
-    // }
+    const handleSearch = (event) => {
+        var key = event.target.value.toLowerCase()
+        if (key !== "") {
+            let user = arr.filter(item => {
+                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase().includes(key) || item.email.toLowerCase().includes(key)
+                return result;
+            })
+            setHistories(user)
+        }
+        else {
+            setHistories(arr)
+        }
+    }
 
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
@@ -209,7 +173,7 @@ const Histories = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="text" placeholder='Search...' className="search"></input>
+                                    <input type="text" placeholder='Search...' className="search" onKeyPress={handleSearch}></input>
                                     {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>
@@ -225,30 +189,12 @@ const Histories = () => {
                         }}
                     >
                     </Table>
-                    {/* <div className="row m-2 content-customer">
-                {items.map((item) => {
-                return (
-                    <div key={item.id} className="col-sm-6 col-md-4 v my-2">
-                    <div className="card shadow-sm w-100" style={{ minHeight: 225 }}>
-                        <div className="card-body">
-                        <h5 className="card-title text-center h2">Id :{item.id} </h5>
-                        <h6 className="card-subtitle mb-2 text-muted text-center">
-                            {item.email}
-                        </h6>
-                        <p className="card-text">{item.body}</p>
-                        </div>
-                    </div>
-                    </div>
-                );
-                })}
-            </div> */}
-
                     <div className='paginate'>
                         <ReactPaginate
                             previousLabel={'previous'}
                             nextLabel={'next'}
                             breakLabel={'...'}
-                            pageCount={10}
+                            pageCount={2}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}

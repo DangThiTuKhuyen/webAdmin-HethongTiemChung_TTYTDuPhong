@@ -46,6 +46,12 @@ const Vaccination = () => {
             fixed: '',
         },
         {
+            title: 'Email',
+            width: 120,
+            dataIndex: 'email',
+            fixed: '',
+        },
+        {
             title: 'Disease',
             dataIndex: 'disease',
             width: 90,
@@ -104,6 +110,7 @@ const Vaccination = () => {
                         id: item.registrationId,
                         userName: item.user.userName,
                         phone: "0" + item.user.phone,
+                        email: item.user.email,
                         disease: item.disease.diseaseName,
                         vaccine: item.vaccine.vaccineName,
                         dose: item.registrationDose,
@@ -113,8 +120,7 @@ const Vaccination = () => {
                     }
                     data.push(x);
                 })
-                setVaccinations(data)
-                console.log(vaccinations)
+                setVaccinations(data.slice(0,10))
                 setArr(data)
                 setIsLoading(false);
             })
@@ -131,57 +137,38 @@ const Vaccination = () => {
                 setRefreshData(!refreshData)
             )
             .catch()
-        console.log(refreshData)
-        console.log(id)
     }
-    // useEffect(() => {
-    //     const getComments = async () => {
-    //         const res = await fetch(
-    //             `http://localhost:3004/comments?_page=2&_limit=${limit}`
-    //         );
-    //         const data = await res.json();
-    //         const total = res.headers.get('x-total-count')
-    //         setpageCount(Math.ceil(total/5))
-    //         console.log(pageCount)
-    //     console.log(total)
-    //         setItems(data)
-    //     };
-    //     getComments()
-    // }, []);
 
     const emptyArray = (arr) => {
         arr.splice(0, arr.length)
     }
-    const fetchComments = async (currentPage) => {
-        const res = await fetch(
-            `http://localhost:3004/comments?_page=${currentPage}&_limit=${limit}`
-        );
-        const data = await res.json();
-
+    const fetchVaccine = (currentPage) => {
+        var currentOffset = currentPage * 10 - 10
+        console.log(arr)
+        var data = arr.slice(currentOffset, currentOffset + 10)
         return data
     };
 
-    const handlePageClick = async (data) => {
-        console.log(data.selected)
+    const handlePageClick = (data) => {
         let currentPage = data.selected + 1
-
-        const commentsFormServer = await fetchComments(currentPage);
-        setItems(commentsFormServer)
+        const result = fetchVaccine(currentPage);
+        setVaccinations(result)
     };
 
-    const handleSearchRadio = (value) => {
-        return arr.filter((item) => {
-            switch (value) {
-                case 'All':
-                    return item
-                case 'Accepted':
-                    return item.status === true
-                case 'Not Accepted':
-                    return item.status === false
-            }
-        })
-        // setRegistrations(result)
+    const handleSearch = (event) => {
+        var key = event.target.value.toLowerCase()
+        if (key !== "") {
+            let user = arr.filter(item => {
+                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase().includes(key) || item.email.toLowerCase().includes(key)
+                return result;
+            })
+            setVaccinations(user)
+        }
+        else {
+            setVaccinations(arr)
+        }
     }
+
 
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
@@ -195,8 +182,7 @@ const Vaccination = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="text" placeholder='Search...' className="search"></input>
-                                    {/* <span class="icon" ><FaSearch size={30} /></span> */}
+                                    <input type="text" placeholder='Search...' className="search" onKeyPress={handleSearch}></input>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +191,6 @@ const Vaccination = () => {
                         columns={columns}
                         dataSource={vaccinations}
                         pagination={false}
-
                         scroll={{
                             x: 670,
                         }}
@@ -229,7 +214,7 @@ const Vaccination = () => {
                 })}
             </div> */}
 
-                    {/* <div className='paginate'>
+                    <div className='paginate'>
                         <ReactPaginate
                             previousLabel={'previous'}
                             nextLabel={'next'}
@@ -249,7 +234,7 @@ const Vaccination = () => {
                             breakLinkClassName={'page-link'}
                             activeClassName={'active'}
                         > </ReactPaginate>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </>

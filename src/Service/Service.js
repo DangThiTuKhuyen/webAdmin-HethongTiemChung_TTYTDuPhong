@@ -1,5 +1,8 @@
 import {axios} from "./axios";
 
+const login = (email, password) => {
+    return axios.post("/auth/loginUsers", {email: email, password: password})
+}
 const getProfile = () => {
     return axios.get("/users/4f5f5ee6-ee71-4da5-9eb6-ba7a51f0fc79")
 }
@@ -25,6 +28,7 @@ const confirmVaccination = (id) => {
 }
 
 const getHistoryVaccination = (realTime) => {
+    return axios.get('/users/0879a9a2-5f65-4476-b107-fea78da2fd69/histories/2022-11-29')
     return axios.get(`/users/0879a9a2-5f65-4476-b107-fea78da2fd69/histories/${realTime}`)
 }
 
@@ -43,6 +47,7 @@ const getHistoryVaccination = (realTime) => {
 
 
 export {
+    login,
     getProfile,
     getUsers,
     getRegistrations,

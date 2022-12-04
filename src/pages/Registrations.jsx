@@ -3,9 +3,6 @@ import ReactPaginate from "react-paginate";
 import { useState, useEffect } from 'react';
 import { Input, Table } from 'antd';
 import './Registrations.scss'
-import {
-    FaSearch
-} from "react-icons/fa";
 import { getRegistrations, updateStatusRegistration } from '../Service/Service';
 import Spinner from 'react-bootstrap/Spinner';
 import moment from "moment";
@@ -13,19 +10,16 @@ import moment from "moment";
 
 const Registrations = () => {
 
-    const [registrations, setRegistrations] = useState(null)
-    const [items, setItems] = useState([])
-    const [pageCount, setpageCount] = useState(0);
+    const [registrations, setRegistrations] = useState([])
+    const [pageCount, setpageCount] = useState(2);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(false);
     const [choose, setChoose] = useState("All");
-    const [arr, setArr] = useState(null)
-    let limit = 12;
+    const [arr, setArr] = useState([])
     const data = []
 
     useEffect(() => {
         fetchRegistrations()
-        console.log("refresh")
     }, [refreshData]);
 
     const columns = [
@@ -99,7 +93,6 @@ const Registrations = () => {
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
-                console.log(data)
                 arr.map((item, index) => {
                     const x = {
                         index: index + 1,
@@ -116,8 +109,8 @@ const Registrations = () => {
                     }
                     data.push(x);
                 })
-                setRegistrations(data)
                 setArr(data)
+                setRegistrations(data.slice(0,10))
                 setIsLoading(false);
             })
             .catch(
@@ -133,46 +126,26 @@ const Registrations = () => {
                 setRefreshData(!refreshData)
             )
             .catch()
-
-        console.log(refreshData)
-        console.log(id)
     }
-    // useEffect(() => {
-    //     const getComments = async () => {
-    //         const res = await fetch(
-    //             `http://localhost:3004/comments?_page=2&_limit=${limit}`
-    //         );
-    //         const data = await res.json();
-    //         const total = res.headers.get('x-total-count')
-    //         setpageCount(Math.ceil(total/5))
-    //         console.log(pageCount)
-    //     console.log(total)
-    //         setItems(data)
-    //     };
-    //     getComments()
-    // }, []);
 
     const emptyArray = (arr) => {
         arr.splice(0, arr.length)
     }
 
-    const fetchComments = async (currentPage) => {
-        const res = await fetch(
-            `http://localhost:3004/comments?_page=${currentPage}&_limit=${limit}`
-        );
-        const data = await res.json();
-
+    const fetchUsers = (currentPage) => {
+        var currentOffset = currentPage * 10 - 10
+        console.log(arr)
+        var data = arr.slice(currentOffset, currentOffset + 10)
         return data
     };
 
-    const handlePageClick = async (data) => {
-        console.log(data.selected)
+    const handlePageClick = (data) => {
         let currentPage = data.selected + 1
-
-        const commentsFormServer = await fetchComments(currentPage);
-        setItems(commentsFormServer)
+        const result = fetchUsers(currentPage);
+        setRegistrations(result)
     };
 
+    // filter radio
     function onChangeValue(event) {
         setChoose(event.target.value);
         setRegistrations(handleSearchRadio(event.target.value))
@@ -189,7 +162,6 @@ const Registrations = () => {
                     return item.status === false
             }
         })
-        // setRegistrations(result)
     }
 
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
@@ -219,36 +191,17 @@ const Registrations = () => {
                         columns={columns}
                         dataSource={registrations}
                         pagination={false}
-
                         scroll={{
                             x: 670,
                         }}
                     >
                     </Table>
-                    {/* <div className="row m-2 content-customer">
-                {items.map((item) => {
-                return (
-                    <div key={item.id} className="col-sm-6 col-md-4 v my-2">
-                    <div className="card shadow-sm w-100" style={{ minHeight: 225 }}>
-                        <div className="card-body">
-                        <h5 className="card-title text-center h2">Id :{item.id} </h5>
-                        <h6 className="card-subtitle mb-2 text-muted text-center">
-                            {item.email}
-                        </h6>
-                        <p className="card-text">{item.body}</p>
-                        </div>
-                    </div>
-                    </div>
-                );
-                })}
-            </div> */}
-
                     <div className='paginate'>
                         <ReactPaginate
                             previousLabel={'previous'}
                             nextLabel={'next'}
                             breakLabel={'...'}
-                            pageCount={10}
+                            pageCount={pageCount}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}

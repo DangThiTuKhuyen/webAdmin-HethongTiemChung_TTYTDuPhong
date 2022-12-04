@@ -5,6 +5,7 @@ import { TextField } from "../components/TextField";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
+import {login} from "../Login/Login"
 
 function Login() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Login() {
     <>
       <Formik
         initialValues={{
-          phoneNumber: "",
+          email: "",
           password: "",
         }}
         // validationSchema={validate}
@@ -27,6 +28,7 @@ function Login() {
           // navigate('/pròipròipròipròipròipròipròipròipròipròi')pròipròipròipròipròipròipròipròipròipròip
           // navigate('/customers')
           // window.location.href = "/profile"
+
           window.location.replace('/home')
         }}
       >
@@ -42,8 +44,8 @@ function Login() {
               <Form className="content-login">
                 <div className="form-outline mb-4">
                   <TextField
-                    label="Phone Number"
-                    name="phoneNumber"
+                    label="Email"
+                    name="email"
                     type="text"
                   />
                 </div>
