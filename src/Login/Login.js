@@ -18,13 +18,16 @@ function Login() {
     <>
       <Formik
         initialValues={{
-          phoneNumber: "âsdadaf",
-          password: "123",
+          phoneNumber: "",
+          password: "",
         }}
         // validationSchema={validate}
         onSubmit={(values) => {
           console.log(values);
-          navigate('/home')
+          // navigate('/pròipròipròipròipròipròipròipròipròipròi')pròipròipròipròipròipròipròipròipròipròip
+          // navigate('/customers')
+          // window.location.href = "/profile"
+          window.location.replace('/home')
         }}
       >
         {(formik) => (
@@ -57,7 +60,6 @@ function Login() {
                   </a>
                 </div>
               </Form>
-              {/* </form> */}
             </div>
           </div>
         )}

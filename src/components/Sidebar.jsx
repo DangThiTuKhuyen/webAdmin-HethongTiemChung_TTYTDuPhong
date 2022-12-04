@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import {
     FaTh,
     FaBars,
@@ -8,6 +8,19 @@ import {
     FaShoppingBag,
     FaThList
 }from "react-icons/fa";
+
+import {
+    FiUsers,
+    FiList
+} from "react-icons/fi";
+
+import {
+    CgProfile
+} from "react-icons/cg";
+
+import {
+    MdChecklist
+} from "react-icons/md"
 import { NavLink } from 'react-router-dom';
 
 
@@ -18,32 +31,27 @@ const Sidebar = ({children}) => {
         {
             path:"/profile",
             name:"Profile",
-            icon:<FaTh/>
+            icon:<CgProfile/>
         },
         {
             path:"/customers",
             name:"Customer",
-            icon:<FaTh/>
+            icon:<FiUsers/>
         },
         {
-            path:"/dashboard",
-            name:"Dashboard",
-            icon:<FaTh/>
+            path:"/registrations",
+            name:"Registrations",
+            icon:<FiList/>
         },
         {
-            path:"/about",
-            name:"About",
-            icon:<FaUserAlt/>
-        },
-        {
-            path:"/analytics",
-            name:"Analytics",
+            path:"/vaccination",
+            name:"Vaccination",
             icon:<FaRegChartBar/>
         },
         {
-            path:"/comment",
-            name:"Comment",
-            icon:<FaCommentAlt/>
+            path:"/history",
+            name:"History list",
+            icon:<MdChecklist/>
         },
         {
             path:"/product",
@@ -51,9 +59,9 @@ const Sidebar = ({children}) => {
             icon:<FaShoppingBag/>
         },
         {
-            path:"/productList",
-            name:"Product List",
-            icon:<FaThList/>
+            path:"/statistical",
+            name:"Statistical",
+            icon:<FaRegChartBar/>
         }
     ]
     return (
@@ -67,7 +75,7 @@ const Sidebar = ({children}) => {
                </div>
                {
                    menuItem.map((item, index)=>(
-                       <NavLink to={item.path} key={index} className="link" activeclassName="active">
+                       <NavLink to={item.path} key={index} className="link" activeclassname="active">
                            <div className="icon">{item.icon}</div>
                            <div style={{display: isOpen ? "block" : "none"}} className="link_text">{item.name}</div>
                        </NavLink>
