@@ -32,6 +32,19 @@ const getHistoryVaccination = (realTime) => {
     return axios.get(`/users/0879a9a2-5f65-4476-b107-fea78da2fd69/histories/${realTime}`)
 }
 
+const getPeople = (year) => {
+    return axios.get(`/users/0879a9a2-5f65-4476-b107-fea78da2fd69/histories/people/${year}`)
+}
+
+const getProfit = (year) => {
+    return axios.get(`/users/0879a9a2-5f65-4476-b107-fea78da2fd69/histories/profit/${year}`)
+}
+
+const getVaccine = (year) => {
+    return axios.get(`/users/0879a9a2-5f65-4476-b107-fea78da2fd69/histories/vaccine/${year}`)
+}
+
+
 // const getAllSchedule =async () =>
 // {
 //     var schedules = await (await axios.get("/schedule")).data.filter((schedule) =>
@@ -54,5 +67,8 @@ export {
     updateStatusRegistration,
     getVaccinations,
     confirmVaccination,
-    getHistoryVaccination
+    getHistoryVaccination,
+    getPeople,
+    getProfit,
+    getVaccine
 }

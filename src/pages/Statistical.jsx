@@ -3,8 +3,10 @@ import React from 'react';
 import LineChart from '../components/Chart/LineChart';
 import PieChart from '../components/Chart/Piechart';
 import BarChart from '../components/Chart/BarChart'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DoughnutChart from '../components/Chart/DoughnutChart';
+import { getProfit } from '../Service/Service';
+import StackBarChart from '../components/Chart/StackBarChart';
 
 const Statistical = () => {
   const [chartData, setChartData] = useState({
@@ -25,6 +27,8 @@ const Statistical = () => {
       }
     ]
   })
+
+
   return (
     <div className="container">
       <div className="row row-cols-2">
@@ -32,16 +36,16 @@ const Statistical = () => {
           <DoughnutChart data={chartData}></DoughnutChart>
         </div>
         <div className="col">
-          <PieChart data={chartData}></PieChart>
+          <StackBarChart data={chartData}></StackBarChart>
         </div>
         <div className="col">
-        <LineChart data={chartData}></LineChart>
+          <LineChart data={chartData}></LineChart>
+        </div>
+        <div className="col">
+          <BarChart data={chartData}></BarChart>
+        </div>
       </div>
-      <div className="col">
-        <BarChart data={chartData}></BarChart>
-      </div>
-      </div>
-      
+
     </div>
   );
 };

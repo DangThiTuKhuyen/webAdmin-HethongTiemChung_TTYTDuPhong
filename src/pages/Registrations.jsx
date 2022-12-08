@@ -8,6 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import moment from "moment";
 
 
+
 const Registrations = () => {
 
     const [registrations, setRegistrations] = useState([])

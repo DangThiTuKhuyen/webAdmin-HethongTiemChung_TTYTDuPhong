@@ -5,7 +5,8 @@ import { TextField } from "../components/TextField";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
-import {login} from "../Login/Login"
+import {login} from "../Service/Service"
+import { common } from "@mui/material/colors";
 
 function Login() {
   const navigate = useNavigate();
@@ -14,6 +15,13 @@ function Login() {
   //     e.preventDefault();
   //     navigate('/home')
   // }
+  const validate = Yup.object().shape({
+    password: Yup.string()
+      .required('Required')
+      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+  });
+ 
 
   return (
     <>
@@ -22,14 +30,18 @@ function Login() {
           email: "",
           password: "",
         }}
-        // validationSchema={validate}
+        validationSchema={validate}
         onSubmit={(values) => {
           console.log(values);
-          // navigate('/pròipròipròipròipròipròipròipròipròipròi')pròipròipròipròipròipròipròipròipròipròip
-          // navigate('/customers')
-          // window.location.href = "/profile"
-
-          window.location.replace('/home')
+          login(values.email, values.password).then(res => {
+            localStorage.setItem('accessToken',res.data.accessToken);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
+            localStorage.setItem('userId', res.data.userId)
+            window.location.replace('/home')
+          })
+          .catch( err => {
+            alert(err.response.data.message)
+          })
         }}
       >
         {(formik) => (

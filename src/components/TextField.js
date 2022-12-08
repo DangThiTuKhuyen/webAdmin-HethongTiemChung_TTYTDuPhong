@@ -12,7 +12,7 @@ export const TextField = ({ label, ...props }) => {
         autoComplete="off"
         readOnly = {props.readOnly}
       />
-      <ErrorMessage component="div" name={field.name} className="error" />
+      <ErrorMessage component="div" name={field.name} className="error" style={{color: 'red'}} />
     </div>
   )
 }

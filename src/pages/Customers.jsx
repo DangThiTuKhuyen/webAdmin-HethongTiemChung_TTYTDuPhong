@@ -96,7 +96,8 @@ const Customers = () => {
                         email: item.email,
                         identityCard: item.identityCard,
                         gender: item.gender,
-                        birthday: moment.utc(item.birthday).format('DD/MM/YYYY'),
+                        birthday: item.birthday,
+                        // moment.utc(item.birthday).format('DD/MM/YYYY')
                         province: item.province,
                         district: item.district
                     }
