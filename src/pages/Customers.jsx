@@ -19,7 +19,7 @@ const Customers = () => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [allusers, setAllusers] = useState([])
-    const [pageCount, setpageCount] = useState(3);
+    const [pageCount, setpageCount] = useState();
     const columns = [
         {
             title: "#",
@@ -44,7 +44,7 @@ const Customers = () => {
         {
             title: 'Email',
             dataIndex: 'email',
-            width: 110,
+            width: 130,
             key: 'email',
         },
         {
@@ -105,6 +105,7 @@ const Customers = () => {
                 })
                 setAllusers(data)
                 setUsers(data.slice(0,10))
+                setpageCount(Math.ceil(data.length / 10))
                 setIsLoading(false);
             })
             .catch(
@@ -133,7 +134,7 @@ const Customers = () => {
         var key = event.target.value.toLowerCase()
         if (key !== "") {
             let user = allusers.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase().includes(key) || item.email.toLowerCase().includes(key)
+                let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
                 return result;
             })
             setUsers(user)

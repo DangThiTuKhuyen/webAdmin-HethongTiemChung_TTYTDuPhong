@@ -7,12 +7,10 @@ import { getRegistrations, updateStatusRegistration } from '../Service/Service';
 import Spinner from 'react-bootstrap/Spinner';
 import moment from "moment";
 
-
-
 const Registrations = () => {
 
     const [registrations, setRegistrations] = useState([])
-    const [pageCount, setpageCount] = useState(2);
+    const [pageCount, setpageCount] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(false);
     const [choose, setChoose] = useState("All");
@@ -89,8 +87,12 @@ const Registrations = () => {
         },
     ]
 
+    const getRealTime = () => {
+        return moment(new Date()).format("YYYY-MM-DD")
+    }
+
     const fetchRegistrations = () => {
-        getRegistrations()
+        getRegistrations(getRealTime())
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
@@ -111,6 +113,7 @@ const Registrations = () => {
                     data.push(x);
                 })
                 setArr(data)
+                setpageCount(Math.ceil(data.length / 10))
                 setRegistrations(data.slice(0,10))
                 setIsLoading(false);
             })
@@ -165,6 +168,50 @@ const Registrations = () => {
         })
     }
 
+    const handleSearch = (event) => {
+        var key = event.target.value
+        if (key !== "") {
+            let registration = arr.filter(item => {
+                let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)
+                return result;
+            })
+            setRegistrations(registration)
+        }
+        else {
+            setRegistrations(arr)
+        }
+    }
+
+    const handleSearchDate = (event) => {
+        var key = event.target.value
+        getRegistrations(key)
+            .then(res => {
+                const arr = res.data.reverse()
+                emptyArray(data)
+                arr.map((item, index) => {
+                    const x = {
+                        index: index + 1,
+                        id: item.registrationId,
+                        userName: item.user.userName,
+                        phone: "0" + item.user.phone,
+                        disease: item.disease.diseaseName,
+                        vaccine: item.vaccine.vaccineName,
+                        dose: item.registrationDose,
+                        date: item.registrationTime,
+                        // moment.utc(item.registrationTime).format('DD/MM/YYYY')
+                        medicalCenter: item.medicalCenter.name,
+                        status: item.status
+                    }
+                    data.push(x);
+                })
+                setRegistrations(data)
+            })
+            .catch(
+                err => {
+                    console.log(err)
+                })
+    }
+ 
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
         <>
@@ -172,7 +219,7 @@ const Registrations = () => {
             <div className="container">
                 <div className='content-registrations'>
                     <div className="content-search">
-                        <div class="row row-cols-2">
+                        <div class="row row-cols-3">
                             <div class="col">
                                 <div onChange={onChangeValue} className="radio">
                                     <input type="radio" value="Accepted" name="choose" checked={choose === "Accepted"} /> Accepted
@@ -182,7 +229,13 @@ const Registrations = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="text" placeholder='Search...' className="search"></input>
+                                    <input type="text" placeholder='Search...' className="search" onKeyPress={handleSearch}></input>
+                                    {/* <span class="icon" ><FaSearch size={30} /></span> */}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input type="date" className="search" onChange={handleSearchDate}></input>
                                     {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>

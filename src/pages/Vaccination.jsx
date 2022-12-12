@@ -156,7 +156,9 @@ const Vaccination = () => {
     };
 
     const handleSearch = (event) => {
+        console.log("scdscsdfc")
         var key = event.target.value.toLowerCase()
+        
         if (key !== "") {
             let user = arr.filter(item => {
                 let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase().includes(key) || item.email.toLowerCase().includes(key)

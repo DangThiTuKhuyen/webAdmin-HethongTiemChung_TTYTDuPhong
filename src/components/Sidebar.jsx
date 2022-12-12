@@ -29,11 +29,6 @@ const Sidebar = ({children}) => {
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/profile",
-            name:"Profile",
-            icon:<CgProfile/>
-        },
-        {
             path:"/customers",
             name:"Customer",
             icon:<FiUsers/>
@@ -62,6 +57,11 @@ const Sidebar = ({children}) => {
             path:"/statistical",
             name:"Statistical",
             icon:<FaRegChartBar/>
+        },
+        {
+            path:"/profile",
+            name:"Profile",
+            icon:<CgProfile/>
         }
     ]
     return (
