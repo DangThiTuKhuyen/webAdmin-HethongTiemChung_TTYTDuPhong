@@ -74,7 +74,8 @@ const LineChart = ({data}) => {
         ],
         borderWidth: 1
       }]
-    };
+    }
+
 
   return <Line data={data1} />
 }

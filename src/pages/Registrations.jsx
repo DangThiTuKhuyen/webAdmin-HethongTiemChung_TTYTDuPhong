@@ -15,6 +15,7 @@ const Registrations = () => {
     const [refreshData, setRefreshData] = useState(false);
     const [choose, setChoose] = useState("All");
     const [arr, setArr] = useState([])
+    const [currentRegistrations, setCurrentRegistrations] = useState([])
     const data = []
 
     useEffect(() => {
@@ -87,12 +88,18 @@ const Registrations = () => {
         },
     ]
 
-    const getRealTime = () => {
-        return moment(new Date()).format("YYYY-MM-DD")
+    const getCurrentDate = () => {
+
+        var element = document.getElementById('search')
+        if (element != null) {
+            return moment.utc(element.value).format("YYYY-MM-DD")
+        } else {
+            return moment(new Date()).format("YYYY-MM-DD")
+        }
     }
 
     const fetchRegistrations = () => {
-        getRegistrations(getRealTime())
+        getRegistrations(getCurrentDate())
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
@@ -113,8 +120,9 @@ const Registrations = () => {
                     data.push(x);
                 })
                 setArr(data)
-                setpageCount(Math.ceil(data.length / 10))
-                setRegistrations(data.slice(0,10))
+                setCurrentRegistrations(data)
+                setpageCount(Math.ceil(arr.length / 10))
+                setRegistrations(data.slice(0, 10))
                 setIsLoading(false);
             })
             .catch(
@@ -139,7 +147,7 @@ const Registrations = () => {
     const fetchUsers = (currentPage) => {
         var currentOffset = currentPage * 10 - 10
         console.log(arr)
-        var data = arr.slice(currentOffset, currentOffset + 10)
+        var data = currentRegistrations.slice(currentOffset, currentOffset + 10)
         return data
     };
 
@@ -152,7 +160,10 @@ const Registrations = () => {
     // filter radio
     function onChangeValue(event) {
         setChoose(event.target.value);
-        setRegistrations(handleSearchRadio(event.target.value))
+        let result = handleSearchRadio(event.target.value)
+        setRegistrations(result.slice(0, 10))
+        setCurrentRegistrations(result)
+        setpageCount(Math.ceil(result.length / 10))
     }
 
     const handleSearchRadio = (value) => {
@@ -175,10 +186,14 @@ const Registrations = () => {
                 let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)
                 return result;
             })
-            setRegistrations(registration)
+            setCurrentRegistrations(registration)
+            setpageCount(Math.ceil(registration.length / 10))
+            setRegistrations(registration.slice(0, 10))
         }
         else {
-            setRegistrations(arr)
+            setCurrentRegistrations(arr)
+            setpageCount(Math.ceil(arr.length / 10))
+            setRegistrations(arr.slice(0, 10))
         }
     }
 
@@ -204,14 +219,17 @@ const Registrations = () => {
                     }
                     data.push(x);
                 })
-                setRegistrations(data)
+                setArr(data)
+                setCurrentRegistrations(data)
+                setpageCount(Math.ceil(arr.length / 10))
+                setRegistrations(data.slice(0, 10))
             })
             .catch(
                 err => {
                     console.log(err)
                 })
     }
- 
+
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
         <>
@@ -235,7 +253,7 @@ const Registrations = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="date" className="search" onChange={handleSearchDate}></input>
+                                    <input type="date" className="search" id='search' onChange={handleSearchDate}></input>
                                     {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>

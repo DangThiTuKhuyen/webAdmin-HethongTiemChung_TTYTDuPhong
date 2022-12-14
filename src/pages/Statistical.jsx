@@ -39,9 +39,12 @@ const Statistical = () => {
           <StackBarChart data={chartData}></StackBarChart>
         </div>
         <div className="col">
+       
+          <h2 style={{ textAlign: 'center'}} >Turnover</h2>
           <LineChart data={chartData}></LineChart>
         </div>
         <div className="col">
+          <h2 style={{ textAlign: 'center'}} > Number of people vaccinated</h2>
           <BarChart data={chartData}></BarChart>
         </div>
       </div>

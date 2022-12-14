@@ -50,12 +50,12 @@ const BarChart = ({ data }) => {
       })
   }
   const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: 'Chart.js Bar Chart - Stacked',
-      },
-    },
+    // plugins: {
+    //   title: {
+    //     display: true,
+    //     text: 'Chart.js Bar Chart - Stacked',
+    //   },
+    // },
     responsive: true,
     scales: {
       x: {
@@ -67,10 +67,9 @@ const BarChart = ({ data }) => {
     },
   }
   const data1 = {
-    title: "Khuyen",
     labels: labels,
     datasets: [{
-      label: 'Số người tiêm',
+   label: "people",
       data: people,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',

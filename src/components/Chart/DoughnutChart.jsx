@@ -27,7 +27,7 @@ const DoughnutChart = ({data}) => {
     pieStartAngle: 0
         
     }
-    return <Doughnut data={data} options={options} />
+    return <Doughnut data={data} options={options} width='50px' height='50px' />
 }
 
 export default DoughnutChart

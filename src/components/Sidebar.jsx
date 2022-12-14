@@ -1,26 +1,22 @@
 import React, { useState} from 'react';
 import {
-    FaTh,
     FaBars,
-    FaUserAlt,
     FaRegChartBar,
-    FaCommentAlt,
-    FaShoppingBag,
-    FaThList
 }from "react-icons/fa";
-
 import {
     FiUsers,
-    FiList
+    FiList,
+    FiLogOut
 } from "react-icons/fi";
-
 import {
     CgProfile
 } from "react-icons/cg";
-
 import {
     MdChecklist
 } from "react-icons/md"
+import {
+    CiCircleList
+} from "react-icons/ci"
 import { NavLink } from 'react-router-dom';
 
 
@@ -41,17 +37,12 @@ const Sidebar = ({children}) => {
         {
             path:"/vaccination",
             name:"Vaccination",
-            icon:<FaRegChartBar/>
+            icon:<CiCircleList/>
         },
         {
             path:"/history",
             name:"History list",
             icon:<MdChecklist/>
-        },
-        {
-            path:"/product",
-            name:"Product",
-            icon:<FaShoppingBag/>
         },
         {
             path:"/statistical",
@@ -62,6 +53,11 @@ const Sidebar = ({children}) => {
             path:"/profile",
             name:"Profile",
             icon:<CgProfile/>
+        },
+        {
+            path:"/logout",
+            name:"Log out",
+            icon:<FiLogOut/>
         }
     ]
     return (

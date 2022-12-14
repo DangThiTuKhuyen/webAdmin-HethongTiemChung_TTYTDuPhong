@@ -9,6 +9,7 @@ import Registrations from './pages/Registrations';
 import Statistical from './pages/Statistical';
 import Vaccination from './pages/Vaccination';
 import Histories from './pages/Histories';
+import Logout from './pages/Logout'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Sidebar from './components/Sidebar';
@@ -31,6 +32,7 @@ function App() {
             <Route path="/customers" element={<Customers />} />
             <Route path='/registrations' element={<Registrations />} />
             <Route path='/statistical' element={<Statistical />} />
+            <Route path='/logout' element={<Logout />} />
           </Routes>
         </Sidebar>
       </Router>

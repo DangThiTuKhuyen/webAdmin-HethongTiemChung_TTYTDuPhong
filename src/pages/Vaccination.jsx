@@ -19,6 +19,7 @@ const Vaccination = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(false);
     const [arr, setArr] = useState(null)
+    const [currentVaccinations, setCurrentVaccinations] = useState([])
     let limit = 12;
     const data = []
 
@@ -97,9 +98,19 @@ const Vaccination = () => {
     const getRealTime = () => {
         return moment(new Date()).format("YYYY-MM-DD")
     }
+    
+    const getCurrentDate = () => {
+
+        var element = document.getElementById('search')
+        if (element != null) {
+            return moment.utc(element.value).format("YYYY-MM-DD")
+        } else {
+            return moment(new Date()).format("YYYY-MM-DD")
+        }
+    }
 
     const fetchVaccinations = () => {
-        getVaccinations(getRealTime())
+        getVaccinations(getCurrentDate())
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
@@ -122,7 +133,41 @@ const Vaccination = () => {
                 })
                 setVaccinations(data.slice(0,10))
                 setArr(data)
+                setCurrentVaccinations(data)
+                setpageCount(Math.ceil(arr.length / 10))
                 setIsLoading(false);
+            })
+            .catch(
+                err => {
+                    console.log(err)
+                })
+    }
+    const handleSearchDate = (event) => {
+        var key = event.target.value
+        getVaccinations(key)
+            .then(res => {
+                const arr = res.data.reverse()
+                emptyArray(data)
+                arr.map((item, index) => {
+                    const x = {
+                        index: index + 1,
+                        id: item.registrationId,
+                        userName: item.user.userName,
+                        phone: "0" + item.user.phone,
+                        disease: item.disease.diseaseName,
+                        vaccine: item.vaccine.vaccineName,
+                        dose: item.registrationDose,
+                        date: item.registrationTime,
+                        // moment.utc(item.registrationTime).format('DD/MM/YYYY')
+                        medicalCenter: item.medicalCenter.name,
+                        status: item.status
+                    }
+                    data.push(x);
+                })
+                setArr(data)
+                setCurrentVaccinations(data)
+                setpageCount(Math.ceil(arr.length / 10))
+                setVaccinations(data.slice(0, 10))
             })
             .catch(
                 err => {
@@ -145,7 +190,7 @@ const Vaccination = () => {
     const fetchVaccine = (currentPage) => {
         var currentOffset = currentPage * 10 - 10
         console.log(arr)
-        var data = arr.slice(currentOffset, currentOffset + 10)
+        var data = currentVaccinations.slice(currentOffset, currentOffset + 10)
         return data
     };
 
@@ -161,16 +206,20 @@ const Vaccination = () => {
         
         if (key !== "") {
             let user = arr.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase().includes(key) || item.email.toLowerCase().includes(key)
+                let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
                 return result;
             })
-            setVaccinations(user)
+            setCurrentVaccinations(user)
+            setVaccinations(user.slice(0, 10))
+            setpageCount(Math.ceil(user.length / 10))
+            console.log(user)
         }
         else {
-            setVaccinations(arr)
+            setCurrentVaccinations(arr)
+            setVaccinations(arr.slice(0, 10))
+            setpageCount(Math.ceil(arr.length / 10))
         }
     }
-
 
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
@@ -179,12 +228,18 @@ const Vaccination = () => {
             <div className="container">
                 <div className='content-vaccinations'>
                     <div className="content-search">
-                        <div class="row row-cols-2">
+                        <div class="row row-cols-3">
                             <div class="col">
                             </div>
                             <div class="col">
                                 <div>
                                     <input type="text" placeholder='Search...' className="search" onKeyPress={handleSearch}></input>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input type="date" className="search" onChange={handleSearchDate}></input>
+                                    {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>
                         </div>
@@ -198,30 +253,13 @@ const Vaccination = () => {
                         }}
                     >
                     </Table>
-                    {/* <div className="row m-2 content-customer">
-                {items.map((item) => {
-                return (
-                    <div key={item.id} className="col-sm-6 col-md-4 v my-2">
-                    <div className="card shadow-sm w-100" style={{ minHeight: 225 }}>
-                        <div className="card-body">
-                        <h5 className="card-title text-center h2">Id :{item.id} </h5>
-                        <h6 className="card-subtitle mb-2 text-muted text-center">
-                            {item.email}
-                        </h6>
-                        <p className="card-text">{item.body}</p>
-                        </div>
-                    </div>
-                    </div>
-                );
-                })}
-            </div> */}
 
                     <div className='paginate'>
                         <ReactPaginate
                             previousLabel={'previous'}
                             nextLabel={'next'}
                             breakLabel={'...'}
-                            pageCount={10}
+                            pageCount={pageCount}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}

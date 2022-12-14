@@ -14,7 +14,6 @@ import moment from "moment";
 const Histories = () => {
 
     const [histories, setHistories] = useState(null)
-
     const [pageCount, setpageCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(false);
@@ -151,7 +150,7 @@ const Histories = () => {
         var key = event.target.value.toLowerCase()
         if (key !== "") {
             let user = arr.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase().includes(key) || item.email.toLowerCase().includes(key)
+                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase() || item.email.toLowerCase().includes(key)
                 return result;
             })
             setHistories(user)
