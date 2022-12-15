@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import {CanvasJSChart} from 'canvasjs-react-charts'
  
+
+// test
+
+
 class ColumnChart extends Component {	
 	render() {
 		const options = {
