@@ -136,6 +136,7 @@ const Vaccination = () => {
                 setCurrentVaccinations(data)
                 setpageCount(Math.ceil(arr.length / 10))
                 setIsLoading(false);
+                console.log(res.data)
             })
             .catch(
                 err => {
@@ -206,7 +207,7 @@ const Vaccination = () => {
         
         if (key !== "") {
             let user = arr.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
+                let result = item.userName.toLowerCase().includes(key) || item.phone || item.email.toLowerCase().includes(key)
                 return result;
             })
             setCurrentVaccinations(user)

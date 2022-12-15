@@ -20,6 +20,7 @@ const Customers = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [allusers, setAllusers] = useState([])
     const [pageCount, setpageCount] = useState();
+    const [currentUsers, setCurrentUsers] = useState([])
     const columns = [
         {
             title: "#",
@@ -104,7 +105,8 @@ const Customers = () => {
                     data.push(x);
                 })
                 setAllusers(data)
-                setUsers(data.slice(0,10))
+                setCurrentUsers(data)
+                setUsers(data.slice(0, 10))
                 setpageCount(Math.ceil(data.length / 10))
                 setIsLoading(false);
             })
@@ -117,7 +119,7 @@ const Customers = () => {
     const emptyArray = (arr) => {
         arr.splice(0, arr.length)
     }
-    
+
     const fetchCustomer = (currentPage) => {
         var currentOffset = currentPage * 10 - 10
         var data = allusers.slice(currentOffset, currentOffset + 10)
@@ -133,14 +135,18 @@ const Customers = () => {
     const handleSearch = (event) => {
         var key = event.target.value.toLowerCase()
         if (key !== "") {
-            let user = allusers.filter(item => {
+            let user = currentUsers.filter(item => {
                 let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
                 return result;
             })
-            setUsers(user)
+            setCurrentUsers(user)
+            setUsers(user.slice(0, 10))
+            setpageCount(Math.ceil(user.length / 10))
         }
         else {
+            setCurrentUsers(allusers)
             setUsers(allusers)
+            setpageCount(Math.ceil(allusers.length / 10))
         }
     }
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;

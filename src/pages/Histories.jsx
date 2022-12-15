@@ -19,6 +19,7 @@ const Histories = () => {
     const [refreshData, setRefreshData] = useState(false);
     // const [choose, setChoose] = useState("All");
     const [arr, setArr] = useState(null)
+    const [currentHistory, setCurrentHistory] = useState([])
     const data = []
 
     useEffect(() => {
@@ -48,7 +49,7 @@ const Histories = () => {
         {
             title: 'Email',
             width: 80,
-            dataIndex: 'phone',
+            dataIndex: 'email',
             fixed: '',
         },
         {
@@ -107,21 +108,14 @@ const Histories = () => {
                 })
                 setArr(data)
                 setHistories(data.slice(0, 10))
+                setCurrentHistory(data)
+                setpageCount(Math.ceil(arr.length / 10))
                 setIsLoading(false);
             })
             .catch(
                 err => {
                     console.log(err)
                 })
-    }
-
-    // Admin accept
-    const changeStatus = (id) => {
-        updateStatusRegistration(id)
-            .then(res =>
-                setRefreshData(!refreshData)
-            )
-            .catch()
     }
   
     const getRealTime = () => {
@@ -153,7 +147,9 @@ const Histories = () => {
                 let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase() || item.email.toLowerCase().includes(key)
                 return result;
             })
-            setHistories(user)
+            setHistories(user.slice(0, 10))
+            setpageCount(Math.ceil(user.length / 10))
+            setCurrentHistory(user)
         }
         else {
             setHistories(arr)
