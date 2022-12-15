@@ -48,25 +48,25 @@ const Vaccination = () => {
         },
         {
             title: 'Email',
-            width: 120,
+            width: 160,
             dataIndex: 'email',
             fixed: '',
         },
         {
             title: 'Disease',
             dataIndex: 'disease',
-            width: 90,
+            width: 80,
             key: '1',
         },
         {
             title: 'Vaccine',
-            width: 90,
+            width: 80,
             dataIndex: 'vaccine',
             key: '2',
         },
         {
             title: 'Dose',
-            width: 30,
+            width: 20,
             dataIndex: 'dose',
             key: '3',
         },
@@ -84,7 +84,7 @@ const Vaccination = () => {
         },
         {
             title: 'Action',
-            width: 100,
+            width: 50,
             dataIndex: 'status',
             fix: 'right',
             render: (record, index) => {

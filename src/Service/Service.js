@@ -5,8 +5,8 @@ const login = (email, password) => {
     return axios.post("/auth/loginUsers", { email: email, password: password })
 }
 const getProfile = () => {
-    // return axios.get(`/users/${userId}`)
-    return axios.get("/users/4f5f5ee6-ee71-4da5-9eb6-ba7a51f0fc79")
+    return axios.get(`/users/${userId}`)
+    // return axios.get("/users/4f5f5ee6-ee71-4da5-9eb6-ba7a51f0fc79")
 
 }
 

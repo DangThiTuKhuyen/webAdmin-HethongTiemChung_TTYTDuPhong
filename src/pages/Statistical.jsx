@@ -33,19 +33,20 @@ const Statistical = () => {
     <div className="container">
       <div className="row row-cols-2">
         <div className="col">
-          <DoughnutChart data={chartData}></DoughnutChart>
-        </div>
-        <div className="col">
-          <StackBarChart data={chartData}></StackBarChart>
-        </div>
-        <div className="col">
-       
-          <h2 style={{ textAlign: 'center'}} >Turnover</h2>
+        <h2 style={{ textAlign: 'center'}} >Turnover</h2>
           <LineChart data={chartData}></LineChart>
         </div>
         <div className="col">
-          <h2 style={{ textAlign: 'center'}} > Number of people vaccinated</h2>
+        <h2 style={{ textAlign: 'center'}} > Number of people vaccinated</h2>
           <BarChart data={chartData}></BarChart>
+        </div>
+        <div className="col" style={{ padding: '70px'}}>
+        <h2 style={{ textAlign: 'center'}} > Number of people vaccinated</h2>
+        <DoughnutChart data={chartData}></DoughnutChart>
+        </div>
+        <div className="col" style={{ padding: '70px'}}>
+        <h3 style={{ textAlign: 'center'}} > Number of people vaccinated in centers</h3>
+        <PieChart data={chartData}></PieChart>
         </div>
       </div>
 
