@@ -6,8 +6,6 @@ import * as Yup from 'yup';
 import './Profile.scss'
 import { getProfile, updateProfile } from '../Service/Service';
 import moment from "moment";
-import Sidebar from '../components/Sidebar';
-import { set } from 'react-hook-form';
 
 const Profile = () => {
 
@@ -34,6 +32,13 @@ const Profile = () => {
       console.log(err))
   }
 
+  const validate = Yup.object().shape({
+    password: Yup.string()
+      .required('Required')
+      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+  });
+
   if (isLoading) return <div>Loading Data</div>;
   return (
     <>
@@ -49,6 +54,7 @@ const Profile = () => {
           province: profiles.province,
           district: profiles.district
         }}
+        validationSchema={validate}
         onSubmit={values => {
           const x = {
             phoneNumber: parseInt(values.phoneNumber),

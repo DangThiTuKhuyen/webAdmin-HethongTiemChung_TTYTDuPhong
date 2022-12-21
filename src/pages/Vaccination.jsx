@@ -94,13 +94,8 @@ const Vaccination = () => {
             },
         },
     ]
-
-    const getRealTime = () => {
-        return moment(new Date()).format("YYYY-MM-DD")
-    }
     
     const getCurrentDate = () => {
-
         var element = document.getElementById('search')
         if (element != null) {
             return moment.utc(element.value).format("YYYY-MM-DD")
@@ -110,6 +105,7 @@ const Vaccination = () => {
     }
 
     const fetchVaccinations = () => {
+        console.log(getCurrentDate())
         getVaccinations(getCurrentDate())
             .then(res => {
                 const arr = res.data.reverse()
@@ -154,6 +150,7 @@ const Vaccination = () => {
                         index: index + 1,
                         id: item.registrationId,
                         userName: item.user.userName,
+                        email: item.user.email,
                         phone: "0" + item.user.phone,
                         disease: item.disease.diseaseName,
                         vaccine: item.vaccine.vaccineName,
@@ -202,18 +199,15 @@ const Vaccination = () => {
     };
 
     const handleSearch = (event) => {
-        console.log("scdscsdfc")
         var key = event.target.value.toLowerCase()
-        
         if (key !== "") {
             let user = arr.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone || item.email.toLowerCase().includes(key)
+                let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)
                 return result;
             })
             setCurrentVaccinations(user)
             setVaccinations(user.slice(0, 10))
             setpageCount(Math.ceil(user.length / 10))
-            console.log(user)
         }
         else {
             setCurrentVaccinations(arr)
@@ -239,8 +233,7 @@ const Vaccination = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="date" className="search" onChange={handleSearchDate}></input>
-                                    {/* <span class="icon" ><FaSearch size={30} /></span> */}
+                                    <input type="date" className="search" id='search' onChange={handleSearchDate}></input>
                                 </div>
                             </div>
                         </div>

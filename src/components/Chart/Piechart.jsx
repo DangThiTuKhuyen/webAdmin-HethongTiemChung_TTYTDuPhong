@@ -2,7 +2,7 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
-import { getPeople } from '../../Service/Service';
+import { getPeopleAtMedicalCenter } from '../../Service/Service';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
@@ -16,10 +16,10 @@ const PieChar = ({data})  => {
   }, [])
 
   const fetchPeople = () => {
-    getPeople(2022)
+    getPeopleAtMedicalCenter(2022)
       .then(res => {
         var label = res.data.map((item) => {
-          return item.monthProfit
+          return item.medicalCenter
         })
         var people = res.data.map((item) => {
           return item.people

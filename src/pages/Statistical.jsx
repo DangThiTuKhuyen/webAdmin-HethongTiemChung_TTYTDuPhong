@@ -41,7 +41,7 @@ const Statistical = () => {
           <BarChart data={chartData}></BarChart>
         </div>
         <div className="col" style={{ padding: '70px'}}>
-        <h2 style={{ textAlign: 'center'}} > Number of people vaccinated</h2>
+        <h2 style={{ textAlign: 'center'}} > Number </h2>
         <DoughnutChart data={chartData}></DoughnutChart>
         </div>
         <div className="col" style={{ padding: '70px'}}>

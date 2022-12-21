@@ -34,6 +34,7 @@ const getHistoryVaccination = (realTime) => {
     return axios.get(`/users/${userId}/histories/${realTime}`)
 }
 
+// Thống kê
 const getPeople = (year) => {
     return axios.get(`/users/${userId}/histories/people/${year}`)
 }
@@ -42,16 +43,19 @@ const getProfit = (year) => {
     return axios.get(`/users/${userId}/histories/profit/${year}`)
 }
 
-const getVaccine = (year) => {
-    return axios.get(`/users/${userId}/histories/vaccine/${year}`)
+const getPeopleAtMedicalCenter = (year) => {
+    return axios.get(`/users/${userId}/histories/peopleCenter/${year}`)
+}
+
+const getDisease = (year) => {
+    return axios.get(`/users/${userId}/histories/disease/${year}`)
 }
 
 const logout = () => {
-    return axios.post(`http://3.92.194.85:3210/auth/logoutUser`, { email: localStorage.getItem("email"), accessToken: localStorage.getItem("accessToken") })
+    return axios.post(`auth/logoutUser`, { email: localStorage.getItem("email"), accessToken: localStorage.getItem("accessToken") })
 }
 
 const updateProfile = (data) => {
-   
     return axios.put(`/users/${userId}`, {phone: data.phoneNumber, gender: data.gender, birthday: data.birthday, province: data.province, district: data.district})
 }
 
@@ -66,7 +70,8 @@ export {
     getHistoryVaccination,
     getPeople,
     getProfit,
-    getVaccine,
+    getPeopleAtMedicalCenter,
+    getDisease,
     logout,
     updateProfile
 }

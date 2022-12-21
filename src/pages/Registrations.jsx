@@ -180,21 +180,24 @@ const Registrations = () => {
     }
 
     const handleSearch = (event) => {
-        var key = event.target.value
-        if (key !== "") {
-            let registration = arr.filter(item => {
-                let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)
-                return result;
-            })
-            setCurrentRegistrations(registration)
-            setpageCount(Math.ceil(registration.length / 10))
-            setRegistrations(registration.slice(0, 10))
+        if (event.key === 'Enter') {
+            var key = event.target.value
+            if (key !== "") {
+                let registration = arr.filter(item => {
+                    let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)
+                    return result;
+                })
+                setCurrentRegistrations(registration)
+                setpageCount(Math.ceil(registration.length / 10))
+                setRegistrations(registration.slice(0, 10))
+            }
+            else {
+                setCurrentRegistrations(arr)
+                setpageCount(Math.ceil(arr.length / 10))
+                setRegistrations(arr.slice(0, 10))
+            }
         }
-        else {
-            setCurrentRegistrations(arr)
-            setpageCount(Math.ceil(arr.length / 10))
-            setRegistrations(arr.slice(0, 10))
-        }
+        
     }
 
     const handleSearchDate = (event) => {
@@ -247,7 +250,7 @@ const Registrations = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="text" placeholder='Search...' className="search" onKeyPress={handleSearch}></input>
+                                    <input type="text" placeholder='Search...' className="search" onKeyDown ={handleSearch}></input>
                                     {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>

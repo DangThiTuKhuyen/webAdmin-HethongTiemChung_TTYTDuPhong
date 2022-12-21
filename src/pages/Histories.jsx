@@ -24,7 +24,6 @@ const Histories = () => {
 
     useEffect(() => {
         fetchHistory()
-        console.log("refresh")
     }, [refreshData]);
 
     const columns = [
@@ -85,7 +84,7 @@ const Histories = () => {
     ]
 
     const fetchHistory = () => {
-        getHistoryVaccination(getRealTime())
+        getHistoryVaccination(getCurrentDate())
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
@@ -110,6 +109,7 @@ const Histories = () => {
                 setHistories(data.slice(0, 10))
                 setCurrentHistory(data)
                 setpageCount(Math.ceil(arr.length / 10))
+                console.log(arr.length)
                 setIsLoading(false);
             })
             .catch(
@@ -117,9 +117,15 @@ const Histories = () => {
                     console.log(err)
                 })
     }
-  
-    const getRealTime = () => {
-        return moment(new Date()).format("YYYY-MM-DD")
+
+    const getCurrentDate = () => {
+
+        var element = document.getElementById('search')
+        if (element != null) {
+            return moment.utc(element.value).format("YYYY-MM-DD")
+        } else {
+            return moment(new Date()).format("YYYY-MM-DD")
+        }
     }
 
     const emptyArray = (arr) => {
@@ -128,15 +134,13 @@ const Histories = () => {
 
     const getHistory = (currentPage) => {
         var currentOffset = currentPage * 10 - 10
-        var data = arr.slice(currentOffset, currentOffset + 10)
+        var data = currentHistory.slice(currentOffset, currentOffset + 10)
         return data
     };
 
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1
         const result = getHistory(currentPage);
-        console.log(result)
-        console.log("cfdscfds")
         setHistories(result)
     }
 
@@ -144,17 +148,57 @@ const Histories = () => {
         var key = event.target.value.toLowerCase()
         if (key !== "") {
             let user = arr.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone.toLowerCase() || item.email.toLowerCase().includes(key)
+                let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
+                console.log(result)
                 return result;
+
             })
+            console.log(user)
             setHistories(user.slice(0, 10))
             setpageCount(Math.ceil(user.length / 10))
             setCurrentHistory(user)
         }
         else {
-            setHistories(arr)
+            setHistories(arr.slice(0, 10))
+            setCurrentHistory(arr)
+             setpageCount(Math.ceil(arr.length / 10))
         }
     }
+
+    const handleSearchDate = (event) => {
+        var key = event.target.value
+        getHistoryVaccination(key).then(res => {
+            const arr = res.data.reverse()
+            emptyArray(data)
+            console.log(data)
+            arr.map((item, index) => {
+                const x = {
+                    index: index + 1,
+                    id: item.historyId,
+                    userName: item.user.userName,
+                    phone: "0" + item.user.phone,
+                    email: item.user.email,
+                    disease: item.disease.diseaseName,
+                    vaccine: item.disease.treatments[0].vaccine.vaccineName,
+                    dose: item.dose,
+                    date: item.time,
+                    // moment.utc(item.registrationTime).format('DD/MM/YYYY')
+                    medicalCenter: item.medicalCenter.name,
+                }
+                data.push(x);
+            })
+            setArr(data)
+            setHistories(data.slice(0, 10))
+            setCurrentHistory(data)
+            setpageCount(Math.ceil(arr.length / 10))
+            // setIsLoading(false);
+        })
+        .catch(
+            err => {
+                console.log(err)
+            })
+    }
+
 
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
@@ -163,12 +207,18 @@ const Histories = () => {
             <div className="container">
                 <div className='content-registrations'>
                     <div className="content-search">
-                        <div class="row row-cols-2">
+                        <div class="row row-cols-3">
                             <div class="col">
                             </div>
                             <div class="col">
                                 <div>
                                     <input type="text" placeholder='Search...' className="search" onKeyPress={handleSearch}></input>
+                                    {/* <span class="icon" ><FaSearch size={30} /></span> */}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input type="date" className="search" id='search' onChange={handleSearchDate}></input>
                                     {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>
@@ -189,7 +239,7 @@ const Histories = () => {
                             previousLabel={'previous'}
                             nextLabel={'next'}
                             breakLabel={'...'}
-                            pageCount={2}
+                            pageCount={pageCount}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}

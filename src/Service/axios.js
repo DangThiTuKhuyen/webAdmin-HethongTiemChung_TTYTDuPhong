@@ -7,7 +7,6 @@ export const axios = Axios.create({
 axios.interceptors.request.use(
     async (config) => {
         config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-    
         return config;
     }
 );
