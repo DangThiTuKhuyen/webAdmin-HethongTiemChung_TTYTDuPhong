@@ -31,7 +31,7 @@ const Profile = () => {
     }).catch( err => 
       console.log(err))
   }
-  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+  const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
 
   const validate = Yup.object().shape({
     phoneNumber: Yup.string().matches(phoneRegExp, 'Invalid phone number').required('Required'),

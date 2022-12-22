@@ -181,7 +181,7 @@ const Registrations = () => {
 
     const handleSearch = (event) => {
         if (event.key === 'Enter') {
-            var key = event.target.value
+            var key = event.target.value.trim()
             if (key !== "") {
                 let registration = arr.filter(item => {
                     let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)

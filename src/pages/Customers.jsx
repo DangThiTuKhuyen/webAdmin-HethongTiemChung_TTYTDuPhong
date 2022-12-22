@@ -122,7 +122,7 @@ const Customers = () => {
 
     const fetchCustomer = (currentPage) => {
         var currentOffset = currentPage * 10 - 10
-        var data = allusers.slice(currentOffset, currentOffset + 10)
+        var data = currentUsers.slice(currentOffset, currentOffset + 10)
         return data
     };
 
@@ -133,9 +133,9 @@ const Customers = () => {
     };
 
     const handleSearch = (event) => {
-        var key = event.target.value.toLowerCase()
+        var key = event.target.value.trim().toLowerCase()
         if (key !== "") {
-            let user = currentUsers.filter(item => {
+            let user = allusers.filter(item => {
                 let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
                 return result;
             })

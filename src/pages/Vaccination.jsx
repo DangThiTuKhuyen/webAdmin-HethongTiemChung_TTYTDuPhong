@@ -199,7 +199,7 @@ const Vaccination = () => {
     };
 
     const handleSearch = (event) => {
-        var key = event.target.value.toLowerCase()
+        var key = event.target.value.trim().toLowerCase()
         if (key !== "") {
             let user = arr.filter(item => {
                 let result = item.userName?.toLowerCase().includes(key) || item.phone.includes(key) || item.email?.toLowerCase().includes(key)
