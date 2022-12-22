@@ -14,6 +14,7 @@ const getUsers = () => {
 }
 
 const getRegistrations = (date) => {
+    console.log(date)
     return axios.get(`/users/${userId}/registrations/${date}/allUser`)
 }
 

@@ -66,7 +66,7 @@ const Vaccination = () => {
         },
         {
             title: 'Dose',
-            width: 20,
+            width: 30,
             dataIndex: 'dose',
             key: '3',
         },
@@ -86,7 +86,7 @@ const Vaccination = () => {
             title: 'Action',
             width: 50,
             dataIndex: 'status',
-            fix: 'right',
+            fixed: 'right',
             render: (record, index) => {
                 return (
                     <button className="action" onClick={() => changeStatus(index.id)} >Confirm</button>
@@ -94,18 +94,21 @@ const Vaccination = () => {
             },
         },
     ]
-    
+
     const getCurrentDate = () => {
         var element = document.getElementById('search')
         if (element != null) {
-            return moment.utc(element.value).format("YYYY-MM-DD")
+            if (!element.value.length) {
+                return moment(new Date()).format("YYYY-MM-DD")
+            } else {
+                return moment.utc(element.value).format("YYYY-MM-DD")
+            }
         } else {
             return moment(new Date()).format("YYYY-MM-DD")
         }
     }
 
     const fetchVaccinations = () => {
-        console.log(getCurrentDate())
         getVaccinations(getCurrentDate())
             .then(res => {
                 const arr = res.data.reverse()
@@ -127,7 +130,7 @@ const Vaccination = () => {
                     }
                     data.push(x);
                 })
-                setVaccinations(data.slice(0,10))
+                setVaccinations(data.slice(0, 10))
                 setArr(data)
                 setCurrentVaccinations(data)
                 setpageCount(Math.ceil(arr.length / 10))
@@ -140,8 +143,14 @@ const Vaccination = () => {
                 })
     }
     const handleSearchDate = (event) => {
-        var key = event.target.value
-        getVaccinations(key)
+        // var key = event.target.value
+        var time
+        if (!event.target.value.length) {
+            time = moment(new Date()).format("YYYY-MM-DD")
+        } else {
+            time = moment.utc(event.target.value).format("YYYY-MM-DD")
+        }
+        getVaccinations(time)
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
@@ -243,7 +252,7 @@ const Vaccination = () => {
                         dataSource={vaccinations}
                         pagination={false}
                         scroll={{
-                            x: 670,
+                            x: 1500,
                         }}
                     >
                     </Table>

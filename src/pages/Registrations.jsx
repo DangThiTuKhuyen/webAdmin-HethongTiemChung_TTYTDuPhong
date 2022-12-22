@@ -37,45 +37,45 @@ const Registrations = () => {
         },
         {
             title: 'Phone number',
-            width: 80,
+            width: 70,
             dataIndex: 'phone',
-            fixed: '',
+            fixed: '1',
         },
         {
             title: 'Disease',
             dataIndex: 'disease',
-            width: 90,
-            key: '1',
-        },
-        {
-            title: 'Vaccine',
-            width: 90,
-            dataIndex: 'vaccine',
+            width: 70,
             key: '2',
         },
         {
-            title: 'Dose',
-            width: 30,
-            dataIndex: 'dose',
+            title: 'Vaccine',
+            width: 70,
+            dataIndex: 'vaccine',
             key: '3',
+        },
+        {
+            title: 'Dose',
+            width: 40,
+            dataIndex: 'dose',
+            key: '4',
         },
         {
             title: 'Date',
             width: 60,
             dataIndex: 'date',
-            key: '4',
+            key: '5',
         },
         {
             title: 'Medical center',
             width: 90,
             dataIndex: 'medicalCenter',
-            key: '5',
+            key: '6',
         },
         {
             title: 'Action',
-            width: 100,
+            width: 50,
             dataIndex: 'status',
-            fix: 'right',
+            fixed: 'right',
             render: (record, index) => {
                 let color = record === true ? "#f6ffec" : "#fff0ef";
                 let borderColor = record === true ? "#c2eea0" : "#ffa39e";
@@ -89,10 +89,13 @@ const Registrations = () => {
     ]
 
     const getCurrentDate = () => {
-
         var element = document.getElementById('search')
         if (element != null) {
-            return moment.utc(element.value).format("YYYY-MM-DD")
+            if (!element.value.length) {
+                return moment(new Date()).format("YYYY-MM-DD")
+            } else {
+                return moment.utc(element.value).format("YYYY-MM-DD")
+            }
         } else {
             return moment(new Date()).format("YYYY-MM-DD")
         }
@@ -197,12 +200,12 @@ const Registrations = () => {
                 setRegistrations(arr.slice(0, 10))
             }
         }
-        
+
     }
 
     const handleSearchDate = (event) => {
-        var key = event.target.value
-        getRegistrations(key)
+        // var key = event.target.value
+        getRegistrations(getCurrentDate())
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
@@ -250,7 +253,7 @@ const Registrations = () => {
                             </div>
                             <div class="col">
                                 <div>
-                                    <input type="text" placeholder='Search...' className="search" onKeyDown ={handleSearch}></input>
+                                    <input type="text" placeholder='Search...' className="search" onKeyDown={handleSearch}></input>
                                     {/* <span class="icon" ><FaSearch size={30} /></span> */}
                                 </div>
                             </div>
@@ -267,7 +270,7 @@ const Registrations = () => {
                         dataSource={registrations}
                         pagination={false}
                         scroll={{
-                            x: 670,
+                            x: 1500,
                         }}
                     >
                     </Table>

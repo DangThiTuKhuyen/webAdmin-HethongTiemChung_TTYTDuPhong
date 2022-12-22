@@ -88,7 +88,6 @@ const Histories = () => {
             .then(res => {
                 const arr = res.data.reverse()
                 emptyArray(data)
-                console.log(data)
                 arr.map((item, index) => {
                     const x = {
                         index: index + 1,
@@ -109,7 +108,6 @@ const Histories = () => {
                 setHistories(data.slice(0, 10))
                 setCurrentHistory(data)
                 setpageCount(Math.ceil(arr.length / 10))
-                console.log(arr.length)
                 setIsLoading(false);
             })
             .catch(
@@ -122,7 +120,11 @@ const Histories = () => {
 
         var element = document.getElementById('search')
         if (element != null) {
-            return moment.utc(element.value).format("YYYY-MM-DD")
+            if (!element.value.length) {
+                return moment(new Date()).format("YYYY-MM-DD")
+            } else {
+                return moment.utc(element.value).format("YYYY-MM-DD")
+            }
         } else {
             return moment(new Date()).format("YYYY-MM-DD")
         }
@@ -161,13 +163,13 @@ const Histories = () => {
         else {
             setHistories(arr.slice(0, 10))
             setCurrentHistory(arr)
-             setpageCount(Math.ceil(arr.length / 10))
+            setpageCount(Math.ceil(arr.length / 10))
         }
     }
 
     const handleSearchDate = (event) => {
-        var key = event.target.value
-        getHistoryVaccination(key).then(res => {
+        // var key = event.target.value
+        getHistoryVaccination(getCurrentDate()).then(res => {
             const arr = res.data.reverse()
             emptyArray(data)
             console.log(data)
@@ -193,10 +195,10 @@ const Histories = () => {
             setpageCount(Math.ceil(arr.length / 10))
             // setIsLoading(false);
         })
-        .catch(
-            err => {
-                console.log(err)
-            })
+            .catch(
+                err => {
+                    console.log(err)
+                })
     }
 
 
@@ -230,7 +232,7 @@ const Histories = () => {
                         pagination={false}
 
                         scroll={{
-                            x: 670,
+                            x: 1500,
                         }}
                     >
                     </Table>
