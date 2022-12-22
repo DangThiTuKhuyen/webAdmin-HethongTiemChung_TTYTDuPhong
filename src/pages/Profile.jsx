@@ -25,18 +25,20 @@ const Profile = () => {
     })
   }, []);
 
-  const updateMyProfile = () => {
-    updateProfile(updateValues).then(res => {
+  const updateMyProfile = (data) => {
+    updateProfile(data).then(res => {
       console.log(res)
     }).catch( err => 
       console.log(err))
   }
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
   const validate = Yup.object().shape({
-    password: Yup.string()
-      .required('Required')
-      .required('Required'),
-    email: Yup.string().email('Invalid email').required('Required'),
+    phoneNumber: Yup.string().matches(phoneRegExp, 'Invalid phone number').required('Required'),
+    gender: Yup.string().required('Required'),
+    birthday: Yup.string().required('Required'),
+    province: Yup.string().required('Required'),
+    district: Yup.string().required('Required'),
   });
 
   if (isLoading) return <div>Loading Data</div>;
@@ -56,15 +58,14 @@ const Profile = () => {
         }}
         validationSchema={validate}
         onSubmit={values => {
-          const x = {
+          const data = {
             phoneNumber: parseInt(values.phoneNumber),
             gender: values.gender,
             birthday: moment.utc(values.birthday).format('DD/MM/YYYY'),
             province: values.province,
             district: values.district
           }
-          setUpdateValues(x)
-          updateMyProfile()
+          updateMyProfile(data)
         }}
       >
         {formik => (

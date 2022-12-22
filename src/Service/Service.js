@@ -7,7 +7,6 @@ const login = (email, password) => {
 const getProfile = () => {
     return axios.get(`/users/${userId}`)
     // return axios.get("/users/4f5f5ee6-ee71-4da5-9eb6-ba7a51f0fc79")
-
 }
 
 const getUsers = () => {

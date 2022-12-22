@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { getPeople } from '../../Service/Service';
+import { getDisease } from '../../Service/Service';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, CategoryScale,
     LinearScale, BarElement,
@@ -8,7 +8,8 @@ import { Chart as ChartJS, ArcElement, CategoryScale,
 ChartJS.register(ArcElement, CategoryScale,
     LinearScale, BarElement,
     Title, Tooltip, Legend);
-const DoughnutChart = ({data}) => {
+
+const DoughnutChart = () => {
 
     const options = {
         responsive: true,
@@ -24,7 +25,7 @@ const DoughnutChart = ({data}) => {
         animation: {
             duration: 1000
         },
-        title: 'My Daily Activities',
+        // title: 'My Daily Activities',
     pieHole: 0.25,
     pieStartAngle: 0
         
@@ -33,15 +34,15 @@ const DoughnutChart = ({data}) => {
   const [people, setPeople] = useState([])
 
   useEffect(() => {
-    fetchPeople()
+    fetchDisease()
     console.log(people)
   }, [])
 
-  const fetchPeople = () => {
-    getPeople(2022)
+  const fetchDisease = () => {
+    getDisease(2022)
       .then(res => {
         var label = res.data.map((item) => {
-          return item.monthProfit
+          return item.diseaseName
         })
         var people = res.data.map((item) => {
           return item.people
@@ -55,7 +56,7 @@ const DoughnutChart = ({data}) => {
       })
   }
  
-  const data1 = {
+  const data = {
     labels: labels,
     datasets: [{
    label: "people",
@@ -90,7 +91,7 @@ const DoughnutChart = ({data}) => {
         borderWidth: 1
       }]
     };
-    return <Doughnut data={data1} options={options} width='50px' height='50px' />
+    return <Doughnut data={data} options={options} />
 }
 
 export default DoughnutChart

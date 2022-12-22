@@ -14,7 +14,6 @@ import {
   Legend,
 } from 'chart.js';
 
-
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -23,9 +22,9 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-
 );
-const LineChart = ({data}) => {
+
+const LineChart = () => {
   const [labels, setLabels] = useState([])
   const [profits, setProfits] = useState([])
 
@@ -49,9 +48,9 @@ const LineChart = ({data}) => {
         console.log(err)
       })
   }
-  const data1 = {
+  
+  const data = {
     labels: labels,
-    
     datasets: [{
       label: 'VNĐ',
       data: profits,
@@ -81,13 +80,13 @@ const LineChart = ({data}) => {
         'rgb(204, 175, 169)',
         'rgb(204, 169, 185)',
         'rgb(169, 204, 202)'
-        ],
-        borderWidth: 1
-      }]
-    }
+      ],
+      borderWidth: 1
+    }]
+  }
 
 
-  return <Line data={data1} />
+  return <Line data={data} />
 }
 
 export default LineChart

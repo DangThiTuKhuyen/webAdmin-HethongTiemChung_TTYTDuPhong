@@ -6,7 +6,7 @@ import { getPeopleAtMedicalCenter } from '../../Service/Service';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-const PieChar = ({data})  => {
+const PieChar = ()  => {
   const [labels, setLabels] = useState([])
   const [people, setPeople] = useState([])
 
@@ -32,28 +32,12 @@ const PieChar = ({data})  => {
         console.log(err)
       })
   }
-  // const options = {
-  //   // responsive: true,
-  //   scales: {
-  //     x: {
-  //       stacked: true,
-
-  //     },
-  //     y: {
-  //       stacked: true,
-  //     },
-  //   },
-  // }
   const options = {
     responsive: true,
     plugins: {
       legend: {
         position: 'top',
-      },
-      // title: {
-      //   display: true,
-      //   text: 'Chart.js Doughnut Chart'
-      // }
+      }
     },
     animation: {
         duration: 1000
@@ -64,10 +48,10 @@ pieStartAngle: 0
     
 }
   const data1 = {
-    labels: ["Medical center 1","Medical center 2", "Medical center 3","Medical center 4","Medical center 5"],
+    labels: labels,
     datasets: [{
    label: "people",
-      data: [10, 30, 70, 50, 82],
+      data: people,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',

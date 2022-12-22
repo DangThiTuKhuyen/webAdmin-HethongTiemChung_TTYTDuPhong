@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Chart as ArcElement, Tooltip, Legend } from 'chart.js';
-import { getVaccine } from '../../Service/Service';
+// import { getVaccine } from '../../Service/Service';
 import { Pie, Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -28,25 +28,25 @@ const StackBarChart = ({ data }) => {
     const [vaccines, setVaccines] = useState([])
 
     useEffect(() => {
-        fetchVaccine()
+        // fetchVaccine()
     }, [])
 
-    const fetchVaccine = () => {
-        getVaccine(2022)
-            .then(res => {
-                var label = res.data.map((item) => {
-                    return item.monthProfit
-                })
-                var vaccine = res.data.map((item) => {
-                    return item.vaccineName
-                })
-                setLabels(label)
-                setVaccines(vaccine)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    // const fetchVaccine = () => {
+    //     getVaccine(2022)
+    //         .then(res => {
+    //             var label = res.data.map((item) => {
+    //                 return item.monthProfit
+    //             })
+    //             var vaccine = res.data.map((item) => {
+    //                 return item.vaccineName
+    //             })
+    //             setLabels(label)
+    //             setVaccines(vaccine)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
     const options = {
         plugins: {
             title: {
