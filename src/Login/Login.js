@@ -37,7 +37,7 @@ function Login() {
             localStorage.setItem('accessToken',res.data.accessToken);
             localStorage.setItem('refreshToken', res.data.refreshToken);
             localStorage.setItem('userId', res.data.userId)
-            window.location.replace('/home')
+            window.location.replace('/statistical')
           })
           .catch( err => {
             alert(err.response.data.message)

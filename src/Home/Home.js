@@ -16,7 +16,7 @@ import Histories from '../pages/Histories'
 const Home = () => {
   return (
    <>
-   {/* <Statistical></Statistical> */}
+   <Statistical></Statistical>
    {/* <BrowserRouter> */}
       {/* <Sidebar>
         <Routes>
