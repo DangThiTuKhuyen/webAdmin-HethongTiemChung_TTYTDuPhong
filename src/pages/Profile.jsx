@@ -27,7 +27,7 @@ const Profile = () => {
 
   const updateMyProfile = (data) => {
     updateProfile(data).then(res => {
-      console.log(res)
+      alert("Update successfully")
     }).catch( err => 
       console.log(err))
   }
