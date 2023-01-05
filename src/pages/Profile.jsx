@@ -73,7 +73,7 @@ const Profile = () => {
             <div class="container mt-3 ">
               <div class="card">
                 <div class="d-flex flex-row justify-content-center mb-3">
-                  <div class="image"> <img src = "https://imagetest12.s3.amazonaws.com/khuyen.png" class="rounded-circle" width={100} height={100} ></img> <span><Icon icon="ant-design:camera-filled" color="black"  width="1300" height="1300" /></span> </div>
+                  <div class  ="image"> <img src = {profiles.image} class="rounded-circle" width={100} height={100} ></img> <span><Icon icon="ant-design:camera-filled" color="black"  width="1300" height="1300" /></span> </div>
                   <div class="d-flex flex-column ms-3 user-details">
                       <h4 class="mb-3">{profiles.userName}</h4>
                   </div>
