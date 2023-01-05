@@ -5,7 +5,7 @@ import { TextField } from "../components/TextField";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
-import {login} from "../Service/Service"
+import { login } from "../Service/Service"
 import { common } from "@mui/material/colors";
 
 function Login() {
@@ -21,7 +21,7 @@ function Login() {
       .required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
   });
- 
+
 
   return (
     <>
@@ -34,14 +34,14 @@ function Login() {
         onSubmit={(values) => {
           console.log(values);
           login(values.email, values.password).then(res => {
-            localStorage.setItem('accessToken',res.data.accessToken);
+            localStorage.setItem('accessToken', res.data.accessToken);
             localStorage.setItem('refreshToken', res.data.refreshToken);
             localStorage.setItem('userId', res.data.userId)
             window.location.replace('/statistical')
           })
-          .catch( err => {
-            alert(err.response.data.message)
-          })
+            .catch(err => {
+              alert(err.response.data.message)
+            })
         }}
       >
         {(formik) => (
