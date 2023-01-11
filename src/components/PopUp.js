@@ -4,7 +4,7 @@ import CloseIcon from '@material-ui/icons/Close'
 
 export default function Popup(props) {
 
-    const { title, children, openPopup, setOpenPopup } = props;
+    const { title, children, openPopup, setOpenPopup, isEdit } = props;
     // const classes = useStyles();
     
     return (

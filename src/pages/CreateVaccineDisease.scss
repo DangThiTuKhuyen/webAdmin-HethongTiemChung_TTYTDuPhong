@@ -1,0 +1,30 @@
+.card{
+    border:none;
+    // background-color: #F8F8FB;
+    border-top: 5px solid #0d6efd;
+    background-color: #FFF;
+    border-radius: 5px;
+    width: 100%;
+    padding: 20px 20px;
+  }
+  .image{
+    position:relative;
+  }
+  .image span{
+    background-color:#e4e6eb;
+    color:#fff;
+    padding:6px;
+    height:30px;
+    width:30px;
+    border-radius:50%;
+    font-size:13px;
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    bottom:-0px;right:0px}
+  .user-details h4{
+    color:blue;
+    padding-top: 36px;
+  }
+  

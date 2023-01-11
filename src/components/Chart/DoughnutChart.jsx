@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { getDisease } from '../../Service/Service';
+import { getDiseaseHaveVaccinated } from '../../Service/Service';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, CategoryScale,
     LinearScale, BarElement,
@@ -39,7 +39,7 @@ const DoughnutChart = () => {
   }, [])
 
   const fetchDisease = () => {
-    getDisease(2022)
+    getDiseaseHaveVaccinated(2022)
       .then(res => {
         var label = res.data.map((item) => {
           return item.diseaseName

@@ -11,7 +11,6 @@ const Profile = () => {
 
   const [profiles, setProfiles] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [updateValues, setUpdateValues] = useState(null)
 
   useEffect(() => {
     getProfile()

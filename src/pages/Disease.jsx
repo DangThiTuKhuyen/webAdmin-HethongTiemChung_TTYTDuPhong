@@ -1,112 +1,88 @@
 import React from 'react';
 import ReactPaginate from "react-paginate";
-import { Pagination } from 'antd';
 import { useState, useEffect } from 'react';
-import { getUsers } from '../Service/Service';
 import { Table, Tag } from 'antd';
-// import Table  from 'react-bootstrap/Table';
+import PopUp from '../components/PopUp';
 import Spinner from 'react-bootstrap/Spinner';
-import moment from "moment";
-import './Customers.scss'
-import {
-    FaSearch
-} from "react-icons/fa";
-import Sidebar from '../components/Sidebar';
+import { getDisease } from '../Service/Service';
+import './Disease.scss'
+import CreateDisease from '../components/CreateDisease';
 
+const Disease = () => {
 
-const Customers = () => {
-
-    const [users, setUsers] = useState([]);
+    const [disease, setDisease] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [allusers, setAllusers] = useState([])
+    const [allDisease, setAllDisease] = useState([])
     const [pageCount, setpageCount] = useState();
-    const [currentUsers, setCurrentUsers] = useState([])
+    const [currentDisease, setCurrentDisease] = useState([])
+    const [openPopupEdit, setOpenPopupEdit] = useState(false);
+    const [dataForItem, setDataForItem] = useState(null)
     const columns = [
         {
             title: "#",
             width: 30,
             dataIndex: 'index',
-            fixed: 'left',
+            fixed: 'left'
         },
         {
             title: 'Name',
+            width: 200,
+            dataIndex: 'diseaseName',
+            key: 'diseaseName',
+            fixed: 'left'
+        },
+        {
+            title: 'Description',
+            width: 500,
+            dataIndex: 'describe',
+        },
+        {
+            title: 'Action',
+            key: 'operation',
+            fixed: 'right',
             width: 100,
-            dataIndex: 'userName',
-            key: 'userName',
-            fixed: 'left',
+            render: (record) => <div >
+                <ul class="list-inline m-0">
+                    <li class="list-inline-item">
+                        <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"  onClick={e=>editDisease(record)} ><i class="fa fa-edit"></i></button>
+                    </li>
+                    {/* <li class="list-inline-item">
+                        <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onClick={e=>removeDisease(record.id, record.diseaseName)} ><i class="fa fa-trash"></i></button>
+                    </li> */}
+                </ul>
+                {/* <button className='btn-edit' onClick={e=>editDisease(record.id)} >dđ</button>&ensp;&ensp;
+                <button className='btn-edit' onClick={e=>editDisease(record.id)} >dđ</button>&ensp;&ensp; */}
+            </div>,
         },
-        {
-            title: 'Phone number',
-            width: 80,
-            dataIndex: 'phone',
-            key: 'phone',
-            // fixed: 'left',
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            width: 130,
-            key: 'email',
-        },
-        {
-            title: 'Identity card',
-            width: 70,
-            dataIndex: 'identityCard',
-            key: 'identityCard',
-        },
-        {
-            title: 'Gender',
-            width: 50,
-            dataIndex: 'gender',
-            key: 'gender',
-        },
-        {
-            title: 'Birthday',
-            width: 60,
-            dataIndex: 'birthday',
-            // moment.utc('birthday').format('YYYY-MM-DD')
-            key: 'birthday',
-        },
-        {
-            title: 'Province',
-            width: 70,
-            dataIndex: 'province',
-            key: 'province',
-        },
-        {
-            title: 'District',
-            width: 80,
-            dataIndex: 'district',
-            key: 'district'
-        }]
+    ]
+
+    const editDisease = (record) => {
+        setOpenPopupEdit(true)
+        setDataForItem(record)
+    }
+
     const data = [];
     useEffect(() => {
-        fetchUsers()
+        fetchDisease()
     }, []);
 
-    const fetchUsers = () => {
-        getUsers()
+    const fetchDisease = () => {
+        getDisease()
             .then(res => {
-                const arr = res.data.reverse()
+                const arr = res.data
                 emptyArray(data)
                 arr.map((item, index) => {
                     const x = {
                         index: index + 1,
-                        userName: item.userName,
-                        phone: "0" + item.phone,
-                        email: item.email,
-                        identityCard: item.identityCard,
-                        gender: item.gender,
-                        birthday: item.birthday,
-                        // moment.utc(item.birthday).format('DD/MM/YYYY')
-                        province: item.province,
-                        district: item.district
+                        diseaseName: item.diseaseName,
+                        describe: item.diseaseDescribe,
+                        id: item.diseaseId
                     }
                     data.push(x);
                 })
-                setAllusers(data)
-                setCurrentUsers(data)
-                setUsers(data.slice(0, 10))
+                setAllDisease(data)
+                setCurrentDisease(data)
+                setDisease(data.slice(0, 10))
                 setpageCount(Math.ceil(data.length / 10))
                 setIsLoading(false);
             })
@@ -120,39 +96,39 @@ const Customers = () => {
         arr.splice(0, arr.length)
     }
 
-    const fetchCustomer = (currentPage) => {
+    const searchDisease = (currentPage) => {
         var currentOffset = currentPage * 10 - 10
-        var data = currentUsers.slice(currentOffset, currentOffset + 10)
+        var data = currentDisease.slice(currentOffset, currentOffset + 10)
         return data
     };
 
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1
-        const result = fetchCustomer(currentPage);
-        setUsers(result)
+        const result = searchDisease(currentPage);
+        setDisease(result)
     };
 
     const handleSearch = (event) => {
         var key = event.target.value.trim().toLowerCase()
         if (key !== "") {
-            let user = allusers.filter(item => {
-                let result = item.userName.toLowerCase().includes(key) || item.phone.includes(key) || item.email.toLowerCase().includes(key)
+            let disease = allDisease.filter(item => {
+                let result = item.diseaseName.toLowerCase().includes(key)
                 return result;
             })
-            setCurrentUsers(user)
-            setUsers(user.slice(0, 10))
-            setpageCount(Math.ceil(user.length / 10))
+            setCurrentDisease(disease)
+            setDisease(disease.slice(0, 10))
+            setpageCount(Math.ceil(disease.length / 10))
         }
         else {
-            setCurrentUsers(allusers)
-            setUsers(allusers.slice(0, 10))
-            setpageCount(Math.ceil(allusers.length / 10))
+            setCurrentDisease(allDisease)
+            setDisease(allDisease.slice(0, 10))
+            setpageCount(Math.ceil(allDisease.length / 10))
         }
     }
     if (isLoading) return <div className="spinner" ><Spinner animation="border" variant="primary" ></Spinner></div>;
     return (
         <>
-            <h4>List of customers</h4>
+            <h4>List of diseases</h4>
             <div className="container">
                 <div className='content-customer'>
                     <div className="content-search">
@@ -168,9 +144,9 @@ const Customers = () => {
                     </div>
                     <Table
                         columns={columns}
-                        dataSource={users}
+                        dataSource={disease}
                         pagination={false}
-                        scroll={{ x: 1500 }}
+                        scroll={{ x: 'max-content' }}
                     >
                     </Table>
                     <div className='paginate'>
@@ -197,7 +173,16 @@ const Customers = () => {
 
                 </div>
             </div>
+            <PopUp
+            maxWidth="100" maxHeight="auto"
+                title="Edit Disease"
+                openPopup={openPopupEdit}
+                setOpenPopup={setOpenPopupEdit}
+                handleReloadComponent={fetchDisease}
+            >
+                <CreateDisease data={dataForItem}></CreateDisease>
+            </PopUp>
         </>
     );
 };
-export default Customers;
+export default Disease;

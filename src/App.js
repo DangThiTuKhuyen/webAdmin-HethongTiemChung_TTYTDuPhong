@@ -9,10 +9,13 @@ import Registrations from './pages/Registrations';
 import Statistical from './pages/Statistical';
 import Vaccination from './pages/Vaccination';
 import Histories from './pages/Histories';
-import Logout from './pages/Logout'
+import Disease from './pages/Disease';
+import Logout from './pages/Logout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Sidebar from './components/Sidebar';
+import CreateVaccineDisease from './pages/CreateVaccineDisease';
+import Vaccine from './pages/Vaccine';
 
 function App() {
   return (
@@ -32,6 +35,9 @@ function App() {
             <Route path="/customers" element={<Customers />} />
             <Route path='/registrations' element={<Registrations />} />
             <Route path='/statistical' element={<Statistical />} />
+            <Route path='/createVaccine' element={<CreateVaccineDisease />} />
+            <Route path='/disease' element={<Disease />} />
+            <Route path='/vaccine' element={<Vaccine />} />
             <Route path='/logout' element={<Logout />} />
           </Routes>
         </Sidebar>

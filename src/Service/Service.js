@@ -2,11 +2,10 @@ import { axios } from "./axios";
 
 let userId = localStorage.getItem("userId")
 const login = (email, password) => {
-    return axios.post("/auth/loginUsers", { email: email, password: password })
+    return axios.post("/auth/loginAdmin", { email: email, password: password })
 }
 const getProfile = () => {
     return axios.get(`/users/${userId}`)
-    // return axios.get("/users/4f5f5ee6-ee71-4da5-9eb6-ba7a51f0fc79")
 }
 
 const getUsers = () => {
@@ -47,7 +46,7 @@ const getPeopleAtMedicalCenter = (year) => {
     return axios.get(`/users/${userId}/histories/peopleCenter/${year}`)
 }
 
-const getDisease = (year) => {
+const getDiseaseHaveVaccinated = (year) => {
     return axios.get(`/users/${userId}/histories/disease/${year}`)
 }
 
@@ -57,6 +56,39 @@ const logout = () => {
 
 const updateProfile = (data) => {
     return axios.put(`/users/${userId}`, {phone: data.phoneNumber, gender: data.gender, birthday: data.birthday, province: data.province, district: data.district})
+}
+
+const getDisease = () => {
+    return axios.get(`/users/${userId}/diseases`)
+}
+
+const addDisease = (data) => {
+    return axios.post(`/users/${userId}/diseases`, {diseaseName: data.nameDisease, diseaseDescribe: data.describe})
+}
+
+const updateDisease = (data, id) => {
+    return axios.put(`/users/${userId}/diseases/${id}`, {diseaseName: data.nameDisease, diseaseDescribe: data.describe})
+}
+
+const getVaccine = () => {
+    return axios.get('/vaccine')
+}
+
+const addVaccine = (data) => {
+    return axios.post('/vaccine', {vaccineName: data.name, vaccinePrice: data.price, vaccineFirm: data.firm, country: data.country})
+}
+
+const updateVaccine = (data, id) => {
+    return axios.put(`/vaccine/${id}`, {vaccineName: data.name, vaccinePrice: data.price, vaccineFirm: data.firm, country: data.country})
+}
+
+const deleteVaccine = (id) => {
+    return axios.delete(`/vaccine/${id}`)
+}
+
+const addTreatment = (data) => {
+    console.log(data)
+    return axios.post(`/treament`, {diseaseId: data.diseaseId, vaccineId: data.vaccineId, effect: data.time, amount: data.amount})
 }
 
 export {
@@ -71,7 +103,15 @@ export {
     getPeople,
     getProfit,
     getPeopleAtMedicalCenter,
-    getDisease,
+    getDiseaseHaveVaccinated,
     logout,
-    updateProfile
+    updateProfile,
+    getDisease,
+    getVaccine,
+    addVaccine,
+    updateVaccine,
+    deleteVaccine,
+    addTreatment,
+    addDisease,
+    updateDisease
 }

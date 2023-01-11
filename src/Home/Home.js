@@ -1,17 +1,6 @@
 import React from 'react';
 import './Home.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Sidebar from '../components/Sidebar'
-import Dashboard from '../pages/Dashboard';
-import About from '../pages/About.jsx';
-import Analytics from '../pages/Analytics.jsx';
-import Profile from '../pages/Profile';
-import Login from '../Login/Login';
-import Customers from '../pages/Customers';
-import Registrations from '../pages/Registrations';
 import Statistical from '../pages/Statistical';
-import Vaccination from '../pages/Vaccination';
-import Histories from '../pages/Histories'
 
 const Home = () => {
   return (

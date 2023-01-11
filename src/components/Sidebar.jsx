@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import {
     FaBars,
     FaRegChartBar,
+    FaVirus
 }from "react-icons/fa";
 import {
     FiUsers,
@@ -15,8 +16,13 @@ import {
     MdChecklist
 } from "react-icons/md"
 import {
-    CiCircleList
+    CiCircleList,
+    CiEdit
 } from "react-icons/ci"
+import {
+    TbVaccineBottle
+} from "react-icons/tb"
+
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = ({children}) => {
@@ -27,6 +33,21 @@ const Sidebar = ({children}) => {
             path:"/statistical",
             name:"Statistical",
             icon:<FaRegChartBar/>
+        },
+        {
+            path:"/disease",
+            name:"Disease",
+            icon:<FaVirus/>
+        },
+        {
+            path:"/vaccine",
+            name:"Vaccine",
+            icon:<TbVaccineBottle/>
+        },
+        {
+            path:"/createVaccine",
+            name:"Create Disease & Vaccine",
+            icon:<CiEdit/>
         },
         {
             path:"/customers",
@@ -63,8 +84,8 @@ const Sidebar = ({children}) => {
         <div className="container">
            <div style={{width: isOpen ? "200px" : "50px"}} className="sidebar">
                <div className="top_section">
-                   {/* <h1 style={{display: isOpen ? "block" : "none"}} className="logo">Logo</h1> */}
-                   <img src = "./Image/login.png" ></img>
+                   <h1 style={{display: isOpen ? "block" : "none"}} className="logo">Logo</h1>
+                   {/* <img src = "./Image/login.png" ></img> */}
                    <div style={{marginLeft: isOpen ? "50px" : "0px"}} className="bars">
                        <FaBars onClick={toggle}/>
                    </div>
